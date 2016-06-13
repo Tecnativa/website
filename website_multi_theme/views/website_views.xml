@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- © 2014 Odoo SA
      © 2015 Antiun Ingenieria S.L. - Antonio Espinosa
+     © 2016 Antonio Espinosa - <antonio.espinosa@tecnativa.com>
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 <openerp>
 <data>
 
-<!-- website -->
-
-<record id="view_website_form_website_multi" model="ir.ui.view">
-    <field name="name">website.form</field>
+<record id="view_website_form" model="ir.ui.view">
+    <field name="name">Multi-website form</field>
     <field name="model">website</field>
     <field name="inherit_id" ref="website.view_website_form"/>
     <field name="arch" type="xml">
@@ -18,6 +17,7 @@
         <xpath expr="//header" position="replace"></xpath>
         <xpath expr="//field[@name='name']" position="after">
             <field name="menu_id"/>
+            <field name="theme_id"/>
             <field name="user_id" context="{ 'active_test' : False }" />
         </xpath>
         <xpath expr="//field[@name='default_lang_id']" position="attributes">
@@ -46,12 +46,11 @@
 
 <record id="website.menu_website_configuration" model="ir.ui.menu">
     <field name="name">Websites Settings</field>
-    <field name="action" ref="website_multi.action_websites_configuration"/>
+    <field name="action" ref="website_multi_theme.action_websites_configuration"/>
 </record>
 
-<!-- ir.ui.view -->
-
-<record id="view_view_form_website_multi" model="ir.ui.view">
+<record id="view_view_form" model="ir.ui.view">
+    <field name="name">Websites Settings</field>
     <field name="model">ir.ui.view</field>
     <field name="inherit_id" ref="base.view_view_form"/>
     <field name="arch" type="xml">
@@ -61,8 +60,6 @@
         </xpath>
     </field>
 </record>
-
-<!-- website.menu -->
 
 <record id="menu_search" model="ir.ui.view">
     <field name="name">website.menu.search</field>
@@ -86,8 +83,8 @@
     </field>
 </record>
 
-<record id="menu_tree_website_multi" model="ir.ui.view">
-    <field name="name">Website Multi Website Menu Tree</field>
+<record id="menu_tree" model="ir.ui.view">
+    <field name="name">Add website column</field>
     <field name="model">website.menu</field>
     <field name="inherit_id" ref="website.menu_tree"/>
     <field name="arch" type="xml">

@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 # © 2014 OpenERP SA
 # © 2015 Antiun Ingenieria S.L. - Antonio Espinosa
+# © 2016 Antonio Espinosa - <antonio.espinosa@tecnativa.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from lxml import etree
 
 from openerp import models, fields, api, _
 from openerp.tools import ormcache, ormcache_context
+
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class IrUiView(models.Model):
@@ -46,6 +50,7 @@ class IrUiView(models.Model):
 
     @ormcache_context(accepted_keys=('website_id',))
     def get_view_id(self, cr, uid, xml_id, context=None):
+        _logger.info('IrUiView::get_view_id: xml_id = %s', xml_id)
         if (context and 'website_id' in context and
                 not isinstance(xml_id, (int, long))):
             domain = [
@@ -68,6 +73,7 @@ class IrUiView(models.Model):
         else:
             xml_id = self.pool['ir.model.data'].xmlid_to_res_id(
                 cr, uid, xml_id, raise_if_not_found=True)
+        _logger.info('IrUiView::get_view_id: res = %s', xml_id)
         return xml_id
 
     _read_template_cache = dict(accepted_keys=(
@@ -92,6 +98,7 @@ class IrUiView(models.Model):
 
     @ormcache(size=0)
     def read_template(self, cr, uid, xml_id, context=None):
+        _logger.info('IrUiView::read_template: xml_id = %s', xml_id)
         if isinstance(xml_id, (int, long)):
             view_id = xml_id
         else:
@@ -104,37 +111,32 @@ class IrUiView(models.Model):
         self._read_template.clear_cache(self)
         self.get_view_id.clear_cache(self)
 
-# Continue migration here
-    def get_inheriting_views_arch(self, cr, uid, view_id, model, context=None):
-        arch = super(IrUiView, self).get_inheriting_views_arch(
-            cr, uid, view_id, model, context=context)
-        if not context or not 'website_id' in context:
+    @api.model
+    def get_inheriting_views_arch(self, view_id, model):
+        _logger.info('IrUiView::get_inheriting_views_arch: view_id = %s, model = %s', view_id, model)
+        arch = super(IrUiView, self).get_inheriting_views_arch(view_id, model)
+        if not self.env.context.get('website_id'):
             return arch
-
+        website_id = self.env.context['website_id']
         view_ids = [v for _, v in arch]
-        view_arch_to_add_per_key = {}
-        keep_view_ids = []
-        for view_rec in self.browse(cr, SUPERUSER_ID, view_ids, context):
-            #case 1: there is no key, always keep the view
+        view_arch_to_add = {}
+        keep = []
+        for view_rec in self.sudo().browse(view_ids):
+            # Case 1: there is no key, always keep the view
             if not view_rec.key:
-                keep_view_ids.append(view_rec.id)
-
-            #case 2: Correct website
-            elif (view_rec.website_id and
-                    view_rec.website_id.id == context['website_id']):
-                view_arch_to_add_per_key[view_rec.key] = (
+                keep.append(view_rec.id)
+            # Case 2: Correct website
+            elif view_rec.website_id.id == website_id:
+                view_arch_to_add[view_rec.key] = (
                     view_rec.website_id.id, view_rec.id)
-            #case 3: no website add it if no website
+            # Case 3: no website add it if no website
             if not view_rec.website_id:
-                view_web_id, view_id = view_arch_to_add_per_key.get(view_rec.key, (False, False))
+                view_web_id, view_id = view_arch_to_add.get(
+                    view_rec.key, (False, False))
                 if not view_web_id:
-                    view_arch_to_add_per_key[view_rec.key] = (False, view_rec.id)
-                #else: do nothing, you already have the right view
-            #case 4: website is wrong: do nothing
-        #Put all the view_id we keep together
-        keep_view_ids.extend([view_id for _, view_id in view_arch_to_add_per_key.values()])
-        return [(arch, view_id) for arch, view_id  in arch if view_id in keep_view_ids]
-
-
-
-
+                    view_arch_to_add[view_rec.key] = (False, view_rec.id)
+                # else: do nothing, you already have the right view
+            # Case 4: website is wrong: do nothing
+        # Put all the view_id we keep together
+        keep.extend([vid for _, vid in view_arch_to_add.values()])
+        return [(xml, vid) for xml, vid in arch if vid in keep]

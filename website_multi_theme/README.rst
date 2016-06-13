@@ -2,12 +2,12 @@
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 
-=============
-Multi Website
-=============
+===================
+Multi Website theme
+===================
 
-This module allows you to build and manage multiple website inside the same
-Odoo database and company.
+This module allows you to build and manage multiple website themes
+inside the same Odoo database and company.
 
 
 Installation
@@ -63,7 +63,6 @@ Contributors
 
 * Thibault Francois (Odoo SA)
 * Stanislas Sobieski (Odoo SA)
-* Rafael Blasco <rafabn@antiun.com>
 * Antonio Espinosa <antonioea@antiun.com>
 
 Maintainer

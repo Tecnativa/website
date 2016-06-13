@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- © 2014 Odoo SA
      © 2015 Antiun Ingenieria S.L. - Antonio Espinosa
+     © 2016 Antonio Espinosa - <antonio.espinosa@tecnativa.com>
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 <openerp>
 <data noupdate="1">
-<!-- TODO: Refactor with ir.ui.view.template model
 <record id="website.default_website" model="website">
     <field name="menu_id" ref="website.main_menu"/>
 </record>
