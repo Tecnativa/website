@@ -11,26 +11,56 @@ var $ = require("$");
 
 animation.registry.website_autocomplete_select2 =
 animation.Class.extend({
-    selector: ".o_autocomplete_fields",
+    selector: ".js_autocomplete_select2",
     start: function (editable_mode) {
         if (editable_mode) {
             return;
         };
-        this.$min_qty_input = this.$el.find("#min_qty_delivery_free");
+        this.$field = this.$el.find(".js_autocomplete_select2 input");
         this.bind_events();
     },
-    bind_events: function () {
+    bind_events: function(){
         var this_ = this;
-        this.$el.on("change", "input[type='radio']", function (event) {
-            return this_.change_input(event);
-        });
+        return this.autocomplete_many2one(this.$field);
     },
-    change_input: function(ev){
-        if (this.$el.find("input[value=min_qty_free]:radio").is(":checked")) {
-            this.$min_qty_input.removeClass('hidden');
-        } else {
-            this.$min_qty_input.addClass('hidden');
-        };
+    autocomplete_many2one: function($field){
+        $field.select2({
+            tokenSeparators: [",", " ", "_"],
+            maximumInputLength: 35,
+            minimumInputLength: 3,
+            maximumSelectionSize: 5,
+            formatResult: function(term) {
+                if (term.isNew) {
+                    return '<span class="label label-primary">New</span> ' + _.escape(term.text);
+                }
+                else {
+                    return _.escape(term.text);
+                }
+            },
+            ajax: {
+                url: function (){
+                    return '/website/autocomplete/' + this.$field.data('model');
+                },
+                dataType: 'json',
+                data: function(term, page) {
+                    return {
+                        q: term,
+                        t: 'select2',
+                        l: 50
+                    };
+                },
+                results: function(data, page) {
+                    var ret = [];
+                    _.each(data, function(x) {
+                        ret.push({ id: x.id, text: x.name, isNew: false });
+                    });
+                    return { results: ret };
+                }
+            },
+            initSelection: function (element, callback) {
+                callback({id: element.data('id'), text: element.data('text')});
+            },
+        });
     },
 });
 

@@ -8,7 +8,7 @@
           priority="20">
     <xpath expr="." position="inside">
         <script type="text/javascript"
-                src="/website_product_supplierinfo_delivery_policy/static/src/js/autocomplete_select2.js"></script>
+                src="/website_autocomplete_select2/static/src/js/autocomplete_select2.js"></script>
     </xpath>
 </template>
 
