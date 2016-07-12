@@ -3,15 +3,15 @@
  */
 
 "use strict";
-odoo.define("website_product_supplierinfo_delivery_policy.loader",
+odoo.define("website_autocomplete_select2.loader",
 function(require){
 
 var animation = require("web_editor.snippets.animation");
 var $ = require("$");
 
-animation.registry.website_product_supplierinfo_delivery_policy =
+animation.registry.website_autocomplete_select2 =
 animation.Class.extend({
-    selector: ".o_product_supplierinfo_delivery_policy",
+    selector: ".o_autocomplete_fields",
     start: function (editable_mode) {
         if (editable_mode) {
             return;
@@ -34,5 +34,5 @@ animation.Class.extend({
     },
 });
 
-return animation.registry.website_product_supplierinfo_delivery_policy;
+return animation.registry.website_autocomplete_select2;
 });
