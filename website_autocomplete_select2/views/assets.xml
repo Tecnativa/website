@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+<data>
+
+<template id="assets_frontend"
+          inherit_id="website.assets_frontend"
+          name="Website Product Supplierinfo Delivery Policy"
+          priority="20">
+    <xpath expr="." position="inside">
+        <script type="text/javascript"
+                src="/website_product_supplierinfo_delivery_policy/static/src/js/supplierinfo_delivery_policy.js"></script>
+    </xpath>
+</template>
+
+
+</data>
+</openerp>
