@@ -37,16 +37,16 @@ To use this module, you need to:
 Known issues / Roadmap
 ======================
 
-``website_crm_claim`` addon is a very ugly addon that just adds a link to
-backend portal of claims. It is in the dependency tree because it would get
-autoinstalled anyway, so this way we benefit from its security rules and can
-disable that link to the backend portal, but in v10, where all the
-``crm.claim`` stuff has been removed in favor of the helpdesk, we should just
-import the security rules here and drop the other addon (or rename it to
-``portal_crm_claim``).
+* ``website_crm_claim`` addon is a very ugly addon that just adds a link to
+  backend portal of claims. It is in the dependency tree because it would get
+  autoinstalled anyway, so this way we benefit from its security rules and can
+  disable that link to the backend portal, but in v10, where all the
+  ``crm.claim`` stuff has been removed in favor of the helpdesk, we should just
+  import the security rules here and drop the other addon (or rename it to
+  ``portal_crm_claim``).
 
-It would be nice to allow creating claims from a form instead of only by
-sending an email.
+* It would be nice to allow creating claims from a form instead of only by
+  sending an email.
 
 Bug Tracker
 ===========
