@@ -4,7 +4,7 @@
 
 <odoo>
 
-<!-- TODO See README's known issues; this shall disappear on v10 -->
+<!-- FIXME See README's known issues; this shall disappear on v10 -->
 <template id="link_claims"
           name="Inhibit website_crm_claim link"
           inherit_id="website_crm_claim.link_claims">
