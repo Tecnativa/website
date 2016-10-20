@@ -13,7 +13,7 @@
     "installable": True,
     "depends": [
         "crm_claim",
-        "website_crm_claim",  # TODO See known issues; drop in v10
+        "website_crm_claim",  # FIXME See known issues; drop in v10
         "website_portal_v10",
     ],
     "data": [
