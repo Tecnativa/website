@@ -85,17 +85,29 @@
                             </div>
                             <div class='row'>
                                 <div class="col-md-6" t-if="claim.user_id">
-                                    <strong>Assigned to</strong>
+                                    <h5>Assigned to</h5>
                                     <div>
                                         <address
                                             t-field="claim.user_id"
                                             t-field-options='{"widget": "contact", "fields": ["name"], "no_marker": true}'/>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <strong>Reported by</strong>
-                                    <div t-if="claim.partner_id">
+                                <div class="col-md-6" t-if="claim.partner_id">
+                                    <h5>Reported by</h5>
+                                    <div>
                                         <address t-field="claim.partner_id" t-field-options='{"widget": "contact", "fields": ["name", "email"], "no_marker": true}'/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" t-if="claim.ref">
+                                    <h5>Reference</h5>
+                                    <div>
+                                        <span t-field="claim.ref.display_name"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" t-if="claim.resolution">
+                                    <h5>Resolution</h5>
+                                    <div>
+                                        <span t-field="claim.resolution"/>
                                     </div>
                                 </div>
                             </div>
