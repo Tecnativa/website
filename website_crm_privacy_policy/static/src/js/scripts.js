@@ -9,28 +9,24 @@ odoo.define('website_crm_privacy_policy.crm_policy', function (require) {
     var core = require('web.core');
     var ajax = require('web.ajax');
     var _t = core._t;
+    var animation = require('web_editor.snippets.animation');
 
-    crm_policy.registry.accept_policy = snippet_animation.Class.extend({
+
+    return animation.registry.accept_policy = animation.Class.extend({
         selector: '.s_website_form',
 
         start: function() {
-            var self = this;
-            this.$target.find('.o_website_form_send').on('click', function (e) {
-                self.accept_policy(e);
-            });
+            this.$('.o_website_form_send').on('click', $.proxy(this.accept_policy, this));
         },
 
         // Validate form
-        accept_policy: function(e) {
-            e.preventDefault();  // Prevent the default submit behavior
+        accept_policy: function(event) {
+            event.preventDefault();  // Prevent the default submit behavior
             this.$target.find('.o_website_form_send').off();  // Prevent users from crazy clicking
 
-            var self = this;
-            if(!this.target.find('input[name="privacy_policy"]').is(':checked')) {
-                e.preventDefault();  // Prevent form from submitting
+            if(!this.$target.find('input[name="privacy_policy"]').is(':checked')) {
                 alert(_t('You must accept our Privacy Policy.'));
             }
-
         },
     });
 });
