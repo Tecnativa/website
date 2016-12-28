@@ -7,7 +7,6 @@ odoo.define('website_crm_privacy_policy.crm_policy', function (require) {
     'use strict';
 
     var core = require('web.core');
-    var ajax = require('web.ajax');
     var _t = core._t;
     var animation = require('web_editor.snippets.animation');
 
@@ -22,9 +21,8 @@ odoo.define('website_crm_privacy_policy.crm_policy', function (require) {
         // Validate form
         accept_policy: function(event) {
             event.preventDefault();  // Prevent the default submit behavior
-            this.$target.find('.o_website_form_send').off();  // Prevent users from crazy clicking
 
-            if(!this.$target.find('input[name="privacy_policy"]').is(':checked')) {
+            if(!this.$('input[name="privacy_policy"]').is(':checked')) {
                 alert(_t('You must accept our Privacy Policy.'));
             }
         },
